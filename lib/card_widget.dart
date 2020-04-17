@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
-class CardWidget extends StatelessWidget {
+class CardWidget extends StatefulWidget {
   const CardWidget({
     Key key,
-    @required this.data,this.delete,this.view,this.update,
+    @required this.delete,this.view,this.update,
   }) : super(key: key);
-
-  final  data;
+  
+  
+  
   final Function update;
   final Function delete;
   final Function view;
 
+  @override
+  _CardWidgetState createState() => _CardWidgetState();
+}
+
+class _CardWidgetState extends State<CardWidget> {
+  final notebox=Hive.box('notes');
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,7 +26,7 @@ class CardWidget extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            data.title,
+            notebox.getAt(0),
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
@@ -30,7 +38,7 @@ class CardWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               FlatButton.icon(
-                onPressed: view,
+                onPressed: widget.view,
                 label: Text(
                   'View Note',
                   style: TextStyle(color: Colors.red)
@@ -38,7 +46,7 @@ class CardWidget extends StatelessWidget {
                 icon: Icon(Icons.remove_red_eye),
               ),
               FlatButton.icon(
-                onPressed: update,
+                onPressed: widget.update,
                 label: Text(
                   'Edit Note',
                   style: TextStyle(color: Colors.red)
@@ -46,7 +54,7 @@ class CardWidget extends StatelessWidget {
                 icon: Icon(Icons.edit),
               ),
               FlatButton.icon(
-                onPressed: delete,
+                onPressed: widget.delete,
                 label: Text(
                   'Delete',
                   style: TextStyle(color: Colors.red)

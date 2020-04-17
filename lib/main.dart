@@ -1,14 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:notes/add_note.dart';
 import 'package:notes/update.dart';
 import 'data.dart';
 import 'card_widget.dart';
 import 'view_page.dart';
 
-void main() => runApp(MaterialApp(
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final directory = await path_provider.getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  await Hive.openBox('notes');
+  Hive.registerAdapter(DataAdapter());
+
+  runApp(MaterialApp(
   home: Home(),
 )
 );
+}
+
 
   class Home extends StatefulWidget {
   @override
@@ -17,6 +28,7 @@ void main() => runApp(MaterialApp(
 
 class _HomeState extends State<Home> {
   List<Data> datas =[];
+  final notebox = Hive.box('notes');
     @override
     Widget build(BuildContext context) {
       return Container(
@@ -46,10 +58,11 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: datas.map((data) => CardWidget(
-                data: data,
+                //data: data,
                 delete: (){
                   setState(() {
                     datas.remove(data);
+                    notebox.delete(data.title);
                   }
                   );
                 },
@@ -74,5 +87,12 @@ class _HomeState extends State<Home> {
           ),
         ),
       );
+  }
+
+  @override
+  void dispose(){
+    Hive.box('notes').compact();
+    Hive.close();
+    super.dispose();
   }
 }

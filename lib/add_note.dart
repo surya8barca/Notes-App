@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:notes/data.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -20,6 +21,7 @@ class AddNote extends StatefulWidget {
 
 class _HomeState extends State<AddNote> {
 
+  final notebox = Hive.box('notes');
   String note;
   String title;
   TextEditingController txt = new TextEditingController();
@@ -29,6 +31,8 @@ class _HomeState extends State<AddNote> {
     setState(() {
       widget.data.add(Data('$title','$note'));
     });
+    notebox.put(title, note);
+    print(notebox.length);
   }
 
   isempty(){
