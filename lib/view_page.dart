@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'data.dart';
+
 void main() => runApp(MaterialApp(
   home: ViewPage()
 )
 );
 
 class ViewPage extends StatefulWidget {
-final String note;
+final Data note;
 ViewPage({this.note});
 
 
@@ -43,15 +45,37 @@ class _ViewPageState extends State<ViewPage> {
           height: 560,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Center(
-              child: Text(
-                    '${this.widget.note}',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 40.0,
-                      fontWeight: FontWeight.bold,
-                    )
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                          'Title: ${this.widget.note.title}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          )
+                        ),
                   ),
+                ),
+                SizedBox(height: 25.0),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Center(
+                    child: Text(
+                          'Note: ${this.widget.note.note}',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 40.0,
+                            fontWeight: FontWeight.bold,
+                          )
+                        ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),

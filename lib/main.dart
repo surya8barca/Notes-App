@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
                   );
                 },
                 view: (){
-                  Route route = MaterialPageRoute(builder: (context) => ViewPage(note: data.note));
+                  Route route = MaterialPageRoute(builder: (context) => ViewPage(note: data));
                     Navigator.push(context, route);
               },
               update:(){

@@ -18,7 +18,7 @@ class CardWidget extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            data.note,
+            data.title,
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,

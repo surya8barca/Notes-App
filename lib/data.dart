@@ -1,10 +1,9 @@
 
 class Data{
-
+  
+  String title; 
   String note;
 
-  Data(String note){
-    this.note=note;
-  }
-  
+
+  Data(this.title,this.note);
 }

@@ -53,7 +53,7 @@ class _HomeState extends State<UpdateNote> {
                   TextField(
                     controller: txt,
                     decoration: InputDecoration(
-                      hintText: 'Press Enter after completing:',                  
+                      hintText: widget.data.note,                  
                       icon: Icon(Icons.add_comment),
                     ),
                     onSubmitted: (String value) {
@@ -73,7 +73,6 @@ class _HomeState extends State<UpdateNote> {
                   buttonColor: Colors.blue,
                   child: RaisedButton(
                   onPressed: (){
-                    //addnote();
                     Navigator.pop(context);
                   }, 
                   child: Text(
