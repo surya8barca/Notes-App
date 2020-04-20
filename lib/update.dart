@@ -1,41 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:notes/data.dart';
 
 void main() => runApp(MaterialApp(
-  home: UpdateNote(),
-)
-);
+      home: UpdateNote(),
+    ));
 
 class UpdateNote extends StatefulWidget {
+  final int index;
+  UpdateNote({this.index});
 
-  final Data data;
-    UpdateNote({this.data});
+  get notesbox => null;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<UpdateNote> {
-
+  final notesbox = Hive.box('notes');
+  String newnote;
   TextEditingController txt = new TextEditingController();
-  String updatednote;
+
+  getclass(title, note) {
+    Data update = new Data(title, note);
+    return update;
+  }
 
   @override
   Widget build(BuildContext context) {
+    final note = notesbox.getAt(widget.index) as Data;
     return Container(
       decoration: BoxDecoration(
-        image: DecorationImage(
-          image: NetworkImage('https://i.pinimg.com/originals/e7/45/ec/e745ecf11e7b422f308bf3a73915fbe7.jpg'),
-          fit: BoxFit.cover,
-        )
-      ),
+          image: DecorationImage(
+        image: NetworkImage(
+            'https://i.pinimg.com/originals/e7/45/ec/e745ecf11e7b422f308bf3a73915fbe7.jpg'),
+        fit: BoxFit.cover,
+      )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.blueGrey,
           centerTitle: true,
           title: Text(
-            'Edit Note',
+            'Edit: ${note.title}',
             style: TextStyle(
               fontSize: 28.0,
               color: Colors.black,
@@ -53,38 +60,45 @@ class _HomeState extends State<UpdateNote> {
                   TextField(
                     controller: txt,
                     decoration: InputDecoration(
-                      hintText: widget.data.note,                  
+                      hintText: note.note,
                       icon: Icon(Icons.add_comment),
                     ),
                     onSubmitted: (String value) {
-                      setState(() {
-                        updatednote=value;
+                      if (value != note.note) {
                         setState(() {
-                        widget.data.note=updatednote;
-                      });
-                      });
+                          newnote = value;
+                        });
+                      }
+                      FocusScope.of(context).nextFocus();
                     },
                   ),
-                  SizedBox(height: 25.0,),
-              Center(
-                  child: ButtonTheme(
-                  minWidth: 100,
-                  height: 50,
-                  buttonColor: Colors.blue,
-                  child: RaisedButton(
-                  onPressed: (){
-                    Navigator.pop(context);
-                  }, 
-                  child: Text(
-                    'Done',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 30.0,
+                  SizedBox(
+                    height: 25.0,
+                  ),
+                  Center(
+                    child: ButtonTheme(
+                      minWidth: 100,
+                      height: 50,
+                      buttonColor: Colors.blue,
+                      child: RaisedButton(
+                        onPressed: () {
+                          if (newnote == null) newnote = note.note;
+                          Data update = getclass(note.title, newnote);
+                          setState(() {
+                            notesbox.putAt(widget.index, update);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Update',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 30.0,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
                 ],
               ),
             ),
