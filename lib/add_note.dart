@@ -35,8 +35,7 @@ class _HomeState extends State<AddNote> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(
-            'https://i.pinimg.com/originals/e7/45/ec/e745ecf11e7b422f308bf3a73915fbe7.jpg'),
+        image: AssetImage('images/form.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

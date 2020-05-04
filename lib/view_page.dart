@@ -23,8 +23,7 @@ class _ViewPageState extends State<ViewPage> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(
-            'https://5.imimg.com/data5/PX/IX/MY-38990110/post-it-sticky-notes-500x500.jpg'),
+        image: AssetImage('images/view.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(

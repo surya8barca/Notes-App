@@ -32,8 +32,7 @@ class _HomeState extends State<Home> {
     return Container(
       decoration: BoxDecoration(
           image: DecorationImage(
-        image: NetworkImage(
-            'https://images.hdqwalls.com/wallpapers/feather-pen.jpg'),
+        image: AssetImage('images/home.jpg'),
         fit: BoxFit.cover,
       )),
       child: Scaffold(
